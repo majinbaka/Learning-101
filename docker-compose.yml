@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: travellist
+    container_name: travellist-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    depends_on:
+      - mongodb
+      - db
+    volumes:
+      - ./:/var/www
+    networks:
+      - travellist
+
+  db:
+    image: mysql:8.0
+    container_name: travellist-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - travellist
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=${DB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    networks:
+      - travellist
+
+
+  nginx:
+    image: nginx:alpine
+    container_name: travellist-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - travellist
+
+networks:
+  travellist:
+    driver: bridge
