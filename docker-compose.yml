@@ -12,7 +12,6 @@ services:
     restart: unless-stopped
     working_dir: /var/www/
     depends_on:
-      - mongodb
       - db
     volumes:
       - ./:/var/www
@@ -23,30 +22,19 @@ services:
     image: mysql:8.0
     container_name: travellist-db
     restart: unless-stopped
+    ports:
+      - "3306:3306"
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_DATABASE: admin
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_USER: admin
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
       - travellist
-
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_DATABASE=${DB_DATABASE}
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    networks:
-      - travellist
-
 
   nginx:
     image: nginx:alpine
