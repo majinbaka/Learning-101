@@ -15,6 +15,10 @@ class CreateUserNotificationsTable extends Migration
     {
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('is_read');
+            $table->string('message');
+            $table->dateTime('recieve_at')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

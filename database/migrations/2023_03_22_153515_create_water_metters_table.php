@@ -15,6 +15,10 @@ class CreateWaterMettersTable extends Migration
     {
         Schema::create('water_metters', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('current_metter');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

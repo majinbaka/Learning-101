@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserPmentsTable extends Migration
+class CreateUserPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateUserPmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_pments', function (Blueprint $table) {
+        Schema::create('user_payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('invoice_id');
+            $table->string('code')->nullable();
+            $table->tinyInteger('payment_type');
             $table->timestamps();
         });
     }

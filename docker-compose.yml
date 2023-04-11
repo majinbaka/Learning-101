@@ -7,8 +7,8 @@ services:
         uid: 1000
       context: ./
       dockerfile: Dockerfile
-    image: travellist
-    container_name: travellist-app
+    image: group101
+    container_name: group101-app
     restart: unless-stopped
     working_dir: /var/www/
     depends_on:
@@ -16,11 +16,11 @@ services:
     volumes:
       - ./:/var/www
     networks:
-      - travellist
+      - group101
 
   db:
     image: mysql:8.0
-    container_name: travellist-db
+    container_name: group101-db
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -34,11 +34,11 @@ services:
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
-      - travellist
+      - group101
 
   nginx:
     image: nginx:alpine
-    container_name: travellist-nginx
+    container_name: group101-nginx
     restart: unless-stopped
     ports:
       - 8000:80
@@ -46,8 +46,8 @@ services:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
-      - travellist
+      - group101
 
 networks:
-  travellist:
+  group101:
     driver: bridge

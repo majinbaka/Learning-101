@@ -15,6 +15,15 @@ class CreateRequestApprovesTable extends Migration
     {
         Schema::create('request_approves', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('name');
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique();
+            $table->string('identity_code')->unique();
+            $table->string('address')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('customer_type');
+            $table->unsignedBigInteger('approve_user_id')->nullable();
             $table->timestamps();
         });
     }
