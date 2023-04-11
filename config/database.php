@@ -91,6 +91,12 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_URI', 'mongodb+srv://admin:admin@localhost:27017/forge?retryWrites=true&w=majority'),
+            'database' => 'myappdb',
+    ],
+
     ],
 
     /*

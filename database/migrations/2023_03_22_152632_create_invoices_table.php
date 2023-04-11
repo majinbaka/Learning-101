@@ -26,7 +26,6 @@ class CreateInvoicesTable extends Migration
             $table->tinyInteger('customer_type');
             $table->tinyInteger('process');
             $table->tinyInteger('type');
-
             $table->timestamps();
         });
     }
